@@ -292,11 +292,18 @@ if(CA_ENABLE_TESTS)
   ca_umbrella_lit_testsuite_open(all)
 endif()
 
-add_subdirectory(hal)
-add_subdirectory(external)
-add_subdirectory(source)
-if(CA_ENABLE_DOCUMENTATION)
-  add_subdirectory(doc)
+# CA_NATIVE_CPU should be set when adding the construction kit as a 
+# subdirectory
+if(CA_NATIVE_CPU)
+  message("AAAA oh lawd he coming")
+  add_subdirectory(modules)
+else()
+  add_subdirectory(hal)
+  add_subdirectory(external)
+  add_subdirectory(source)
+  if(CA_ENABLE_DOCUMENTATION)
+    add_subdirectory(doc)
+  endif()
 endif()
 
 # Add the deferred add_ca_extension_subdirectory() entries until all

@@ -14,7 +14,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-add_ca_library(compiler-utils STATIC
+set(COMPILER_UTILS_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/include/compiler/utils/StructTypeRemapper.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/compiler/utils/add_kernel_wrapper_pass.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/compiler/utils/add_metadata_pass.h
@@ -116,6 +116,11 @@ add_ca_library(compiler-utils STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/source/scheduling.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/unique_opaque_structs_pass.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/verify_reqd_sub_group_size_pass.cpp)
+if(CA_NATIVE_CPU)
+  add_llvm_library(compiler-utils ${COMPILER_UTILS_SRC)
+else()
+  add_ca_library(compiler-utils STATIC ${COMPILER_UTILS_SRC)
+endif()
 
 target_include_directories(compiler-utils PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include)
