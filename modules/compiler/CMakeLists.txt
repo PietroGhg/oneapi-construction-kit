@@ -15,6 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 add_subdirectory(builtins)
+if(CA_NATIVE_CPU)
+  add_subdirectory(multi_llvm)
+  add_subdirectory(utils)
+endif()
 
 if(CA_RUNTIME_COMPILER_ENABLED)
   if(CA_ENABLE_TESTS)
@@ -22,7 +26,6 @@ if(CA_RUNTIME_COMPILER_ENABLED)
     ca_umbrella_lit_testsuite_open(compiler)
   endif()
 
-  add_subdirectory(multi_llvm)
   add_subdirectory(source/base)
   add_subdirectory(targets)
   add_subdirectory(utils)
