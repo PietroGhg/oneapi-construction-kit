@@ -38,7 +38,6 @@ else()
   set(CARGO_HAS_PTHREAD_GETNAME_NP OFF)
 endif()
 
-message("AAA adding cargo")
 set(CARGO_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/include/cargo/allocator.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/cargo/argument_parser.h

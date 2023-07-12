@@ -298,7 +298,6 @@ endif()
 # CA_NATIVE_CPU should be set when adding the construction kit as a 
 # subdirectory
 if(CA_NATIVE_CPU)
-  message("AAAA oh lawd he coming")
   add_subdirectory(modules)
 else()
   add_subdirectory(hal)
