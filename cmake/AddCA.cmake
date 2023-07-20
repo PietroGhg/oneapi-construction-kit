@@ -974,8 +974,8 @@ function(add_ca_copy_file)
     COMMENT "Copying file ${relOut}")
 endfunction()
 
-if(EXISTS ${PROJECT_SOURCE_DIR}/source/cl AND
-    (CA_ENABLE_API STREQUAL "" OR CA_ENABLE_API MATCHES cl))
+if((EXISTS ${PROJECT_SOURCE_DIR}/source/cl AND
+  (CA_ENABLE_API STREQUAL "" OR CA_ENABLE_API MATCHES cl)) OR CA_NATIVE_CPU)
   # Cleared to ensure reconfigures behave correctly.
   set(CA_CL_RUNTIME_EXTENSION_TAGS ""
     CACHE INTERNAL "List of runtime extension names.")

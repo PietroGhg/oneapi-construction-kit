@@ -18,8 +18,7 @@ add_subdirectory(builtins)
 if(CA_NATIVE_CPU)
   add_subdirectory(multi_llvm)
   add_subdirectory(utils)
-endif()
-
+else()
 if(CA_RUNTIME_COMPILER_ENABLED)
   if(CA_ENABLE_TESTS)
     # Open up an active set of 'compiler' lit suites
@@ -189,3 +188,4 @@ if(CA_RUNTIME_COMPILER_ENABLED)
 endif()
 
 add_subdirectory(loader)
+endif() #CA_NATIVE_CPU

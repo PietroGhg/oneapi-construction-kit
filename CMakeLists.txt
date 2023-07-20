@@ -14,12 +14,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-project(ComputeAorta VERSION 3.0.0 LANGUAGES C CXX ASM)
-
-# There's no situation where it's necessary to *not* generate this file and the
-# time difference to configure is about 0.1s
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+message("DDDDDD ${CMAKE_CLC_COMPILE_OBJECT}")
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
+  cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+  project(ComputeAorta VERSION 3.0.0 LANGUAGES C CXX ASM)
+  
+  # There's no situation where it's necessary to *not* generate this file and the
+  # time difference to configure is about 0.1s
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+else()
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+endif()
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   message(FATAL_ERROR "oneAPI Construction Kit does not support in-tree builds!")
