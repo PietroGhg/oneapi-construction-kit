@@ -61,9 +61,7 @@ PreservedAnalyses ReplaceMemIntrinsicsPass::run(Function &F,
         break;
       case Intrinsic::memmove:
 #if LLVM_VERSION_GREATER_EQUAL(17, 0)
-        //expandMemMoveAsLoop(cast<MemMoveInst>(CI), TTI);
-        // Todo: temp fix because DPC++ is not up to date
-        expandMemMoveAsLoop(cast<MemMoveInst>(CI));
+        expandMemMoveAsLoop(cast<MemMoveInst>(CI), TTI);
 #else
         expandMemMoveAsLoop(cast<MemMoveInst>(CI));
 #endif
