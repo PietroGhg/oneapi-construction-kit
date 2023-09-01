@@ -14,7 +14,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-message("DDDDDD ${CMAKE_CLC_COMPILE_OBJECT}")
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
   cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
   project(ComputeAorta VERSION 3.0.0 LANGUAGES C CXX ASM)
