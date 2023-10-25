@@ -23,6 +23,7 @@
 
 #include <cargo/optional.h>
 #include <llvm/ADT/Twine.h>
+#include <llvm/IR/Constants.h>
 #include <llvm/IR/Function.h>
 #include <llvm/Transforms/Utils/ValueMapper.h>
 
@@ -75,6 +76,8 @@ void replaceConstantExpressionWithInstruction(llvm::Constant *const constant);
 void remapConstantExpr(llvm::ConstantExpr *expr, llvm::Constant *from,
                        llvm::Constant *to);
 
+void remapConstantArray(llvm::ConstantArray *expr, llvm::Constant *from,
+                       llvm::Constant *to);
 /// @brief Discover if input function references debug info metadata nodes
 ///
 /// @param[in] func Function to check

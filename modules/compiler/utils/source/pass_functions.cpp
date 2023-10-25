@@ -73,20 +73,34 @@ uint64_t computeApproximatePrivateMemoryUsage(const llvm::Function &fn) {
   return bytes;
 }
 
-void remapConstantExpr(llvm::ConstantExpr *expr, llvm::Constant *from,
-                       llvm::Constant *to) {
+template <typename ConstantT>
+static llvm::SmallVector<llvm::Constant *, 8> getNewOps(ConstantT *constant, llvm::Constant *from,
+    llvm::Constant *to) {
   llvm::SmallVector<llvm::Constant *, 8> newOps;
-  // iterate through the constant expression and create a vector of old and new
+  // iterate through the constant and create a vector of old and new
   // ones
-  for (unsigned i = 0, e = expr->getNumOperands(); i != e; ++i) {
-    auto op = expr->getOperand(i);
+  for (unsigned i = 0, e = constant->getNumOperands(); i != e; ++i) {
+    auto op = constant->getOperand(i);
     if (op == from) {
       newOps.push_back(to);
     } else {
       newOps.push_back(op);
     }
   }
+  return newOps;
+}
 
+void remapConstantArray(llvm::ConstantArray *arr, llvm::Constant *from,
+                        llvm::Constant *to) {
+  llvm::SmallVector<llvm::Constant *, 8> newOps = getNewOps(arr, from, to);
+  // Create a new array with the list of operands and replace all uses with
+  llvm::Constant *newConstant = llvm::ConstantArray::get(arr->getType(), newOps);
+  arr->replaceAllUsesWith(newConstant);
+}
+
+void remapConstantExpr(llvm::ConstantExpr *expr, llvm::Constant *from,
+                       llvm::Constant *to) {
+  llvm::SmallVector<llvm::Constant *, 8> newOps = getNewOps(expr, from, to);
   // Create a new expression with the list of operands and replace all uses with
   llvm::Constant *newConstant = expr->getWithOperands(newOps);
   expr->replaceAllUsesWith(newConstant);
