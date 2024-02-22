@@ -293,14 +293,23 @@ std::optional<unsigned> isSchedulingParameter(const Function &f, unsigned idx) {
 std::optional<std::array<uint64_t, 3>> parseRequiredWGSMetadata(
     const Function &f) {
   if (auto mdnode = f.getMetadata(ReqdWGSizeMD)) {
-    auto *const op0 = mdconst::extract<ConstantInt>(mdnode->getOperand(0));
-    auto *const op1 = mdconst::extract<ConstantInt>(mdnode->getOperand(1));
-    auto *const op2 = mdconst::extract<ConstantInt>(mdnode->getOperand(2));
+    auto numOps = mdnode->getNumOperands();
+    assert(numOps >= 1 && numOps <= 3 &&
+           "Unsupported number of operators in reqd_work_group_size");
+    auto op0 =
+        mdconst::extract<ConstantInt>(mdnode->getOperand(0))->getZExtValue();
+    auto op1 = numOps >= 2
+                   ? mdconst::extract<ConstantInt>(mdnode->getOperand(1))
+                         ->getZExtValue()
+                   : 1;
+    auto op2 = numOps == 3
+                   ? mdconst::extract<ConstantInt>(mdnode->getOperand(2))
+                         ->getZExtValue()
+                   : 1;
 
     // KLOCWORK "UNINIT.STACK.ARRAY.MUST" possible false positive
     // This is normal std::array initialization
-    std::array<uint64_t, 3> wgs = {
-        {op0->getZExtValue(), op1->getZExtValue(), op2->getZExtValue()}};
+    std::array<uint64_t, 3> wgs = {{op0, op1, op2}};
     return wgs;
   }
   return std::nullopt;
